@@ -74,7 +74,7 @@ const AddContacts = () => {
      
     }
     return (
-        <div>
+        <div className='my-3'>
              <Helmet >
         <title>Neutron Ltd || Add a Contect</title>
        

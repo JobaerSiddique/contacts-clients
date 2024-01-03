@@ -167,13 +167,14 @@ const ContactModal = ({modal,refetch,setModal}) => {
   {favourite?
   <input type="checkbox" 
   checked
-  disabled
+  
    className="toggle toggle-info  " />:
    <input type="checkbox" 
   onChange={()=>setfav(!fav)}
   className="toggle toggle-info  " />}
   
 </label>
+
  <input type="submit" className='btn w-full my-5' value="Update" />
     </form>
     <button className='btn btn-warning w-full' onClick={()=>handleDelete(_id)}>Delete Contact</button>

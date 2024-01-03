@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ContactModal from './ContactModal';
-import { FcDislike } from "react-icons/fc";
+import { BsFillSuitHeartFill } from "react-icons/bs";
 const ContactCard = ({contact,setModal,modal}) => {
    
   
@@ -16,7 +16,7 @@ const ContactCard = ({contact,setModal,modal}) => {
     {!email? "":<p>Email : {email}</p>}
     <p>Address : {address}</p>
     <p>Phone : {phone}</p>
-    {favourite?<p><FcDislike /></p>:""}
+    {favourite?<p className='text-red-500'><BsFillSuitHeartFill /></p>:""}
     <div className="flex justify-between items-end">
       {/* <button className="btn btn-primary mx-5">Buy Now</button>
       <button className="btn btn-outline btn-primary">Buy</button> */}
