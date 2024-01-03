@@ -33,7 +33,7 @@ const AddContacts = () => {
             photo:image
         }
        
-        axios.post('http://localhost:5000/auth/addcontact',contactinfo)
+        axios.post('https://contacts-server-pi.vercel.app/auth/addcontact',contactinfo)
         .then((response)=>{
             console.log(response)
             if(response.data){

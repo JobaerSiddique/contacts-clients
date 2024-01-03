@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-
+import cloudinaryConfig from "../../../ImageHostingConfig/ImageConfig"
 const ContactModal = ({modal,refetch,setModal}) => {
     console.log(modal)
     const {_id,name,email,address,phone,photo,favourite
@@ -15,32 +15,87 @@ const ContactModal = ({modal,refetch,setModal}) => {
    const email=form.email.value
    const phone = form.phone.value
    const address=form.address.value
+   const file = form.photo.files[0]
   
    
-    const updateInfo={
-      name:name,
-      email:email,
-      phone:phone,
-      address:address,
-      favourite:fav
-     }
-  
-      console.log(updateInfo,_id)
-      axios.put(`http://localhost:5000/auth/allcontacts/${id}`,updateInfo)
-      .then(result=>{
-        if(result.data){
-          Swal.fire({
-            position: "top-center",
-            icon: "success",
-            title: "Contact Update Successfully",
-            showConfirmButton: false,
-            timer: 1500
-          });
-          setModal(null)
-          refetch()
-        }
-       
+    const formData = new FormData()
+                formData.append('file',file)
+                formData.append('upload_preset','jobaer_up')
+                fetch(`https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`,{
+        method:"POST",
+        
+        body:formData
       })
+      .then(res=>res.json())
+      .then(result=>{
+       
+        const image= result.secure_url
+        const updateInfo={
+          name:name,
+          email:email,
+          phone:phone,
+          address:address,
+          photo:image,
+          favourite:fav
+         }
+       
+         axios.put(`https://contacts-server-pi.vercel.app/auth/allcontacts/${id}`,updateInfo)
+        .then((response)=>{
+            console.log(response)
+            if(response.data){
+                Swal.fire({
+                    position: "top-center",
+                    icon: "success",
+                    title: "Add Contact Successfully",
+                    showConfirmButton: false,
+                    timer: 2000
+                  });
+                  setModal(null)
+                  refetch()
+            }
+            if(response.data.message){
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `${response.data.message}`,
+                 
+                  });
+                  setModal(null)
+                refetch()
+            }
+                
+            
+        })
+        .catch(err=>{
+            if(err){
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `${response.data.message}`,
+                 
+                  });
+            }
+        })
+      })
+   
+    
+  
+      // console.log(updateInfo,_id,file)
+      // axios.put(`https://contacts-server-pi.vercel.app/auth/allcontacts/${id}`,updateInfo)
+      // .then(result=>{
+      //   if(result.data){
+      //     Swal.fire({
+      //       position: "top-center",
+      //       icon: "success",
+      //       title: "Contact Update Successfully",
+      //       showConfirmButton: false,
+      //       timer: 1500
+      //     });
+      //     setModal(null)
+      //     refetch()
+      //   }
+       
+      // })
      
    
    
@@ -66,7 +121,7 @@ const ContactModal = ({modal,refetch,setModal}) => {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:5000/auth/allcontacts/${id}`)
+        axios.delete(`https://contacts-server-pi.vercel.app/auth/allcontacts/${id}`)
     .then(()=>{
       Swal.fire({
         position: "top-center",
@@ -175,7 +230,7 @@ const ContactModal = ({modal,refetch,setModal}) => {
   
 </label>
 
- <input type="submit" className='btn w-full my-5' value="Update" />
+ <input type="submit" className='btn btn-outline btn-success w-full my-5' value="Update" />
     </form>
     <button className='btn btn-warning w-full' onClick={()=>handleDelete(_id)}>Delete Contact</button>
     

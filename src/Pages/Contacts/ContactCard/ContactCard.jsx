@@ -7,7 +7,7 @@ const ContactCard = ({contact,setModal,modal}) => {
     const {_id,name,email,photo,address,phone,favourite}=contact
     return (
         <div>
-            <div className="card w-96 bg-base-100 shadow-xl">
+            <div className="card w-96 bg-base-100 shadow-2xl hover:scale-y-90">
   <figure className="px-10 pt-10">
     <img  src={photo} alt="Shoes" className="size-52 rounded-xl" />
   </figure>
