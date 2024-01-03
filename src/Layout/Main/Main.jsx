@@ -10,9 +10,11 @@ const Main = () => {
             <title>Neutron Ltd</title>
             </Helmet>
            <Navbar/>
-           <div  className='container mx-auto'>
+           <div  className='container mx-auto '>
            <Outlet/> 
+           
            </div>
+           
         </div>
     );
 };
